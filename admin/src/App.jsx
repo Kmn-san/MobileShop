@@ -6,7 +6,7 @@ function App() {
     <div>
       <h1>HOME PAGE</h1>
       <SignedOut>
-        <SignInButton mode='model'/>
+        <SignInButton mode='modal'/>
       </SignedOut>
 
       <SignedIn>
