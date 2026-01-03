@@ -50,7 +50,7 @@ export async function createProduct(req, res) {
 export async function getAllProduct(_, res) {
     try {
         //-1 means decending order: most recent product first
-        const products = (await Product.find()).toSorted({ createdAt: -1 })
+        const products = (await Product.find()).sort({ createdAt: -1 })
         res.status(200).json(products)
     } catch (error) {
         console.error("Error fetching product: ", error.message)
@@ -71,7 +71,7 @@ export async function updateProduct(req, res) {
 
         if (name) existingProduct.name = name
         if (description) existingProduct.description = description
-        if (price) existingProduct.price = parseFloat(price)
+        if (price !== undefined) existingProduct.price = parseFloat(price)
         if (stock !== undefined) existingProduct.stock = parseInt(stock)
         if (category) existingProduct.category = category
 
@@ -92,7 +92,7 @@ export async function updateProduct(req, res) {
 
         const updatedProduct = await existingProduct.save()
 
-        res.status(200).json(updateProduct)
+        res.status(200).json(updatedProduct)
 
     } catch (error) {
         console.error("Error updating product: ", error.message)
@@ -121,7 +121,7 @@ export async function updateOrderStatus(req, res) {
         const { orderId } = req.params;
         const { status } = req.body;
 
-        if (!["pending", "shipping", "delivered"].includes(status)) {
+        if (!["pending", "shipped", "delivered"].includes(status)) {
             return res.status(400).json({ error: "Invalid status" })
         }
 
@@ -151,7 +151,7 @@ export async function updateOrderStatus(req, res) {
 
 export async function getAllCustomers(_, res) {
     try {
-        const customers = (await User.find()).toSorted({ createdAt: -1 }); //latest user first
+        const customers = (await User.find()).sort({ createdAt: -1 }); //latest user first
         res.status(200).json({ customers })
     } catch (error) {
         console.error("Error fetching users: ", error.message)
@@ -171,7 +171,7 @@ export async function getDashboardStats(_, res) {
             }
         ])
 
-        const totalRevenue = revenueResult[0?.total || 0]
+        const totalRevenue = revenueResult[0]?.total || 0
         const totalCustomers = await User.countDocuments()
 
         const totalProducts = await Product.countDocuments()
