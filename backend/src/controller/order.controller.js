@@ -12,6 +12,7 @@ export async function createOrders(req, res) {
         }
 
         //validate products and stock
+        //todo check later if this is working or not
         for (const item of orderItems) {
             const product = await Product.findById(item.product._id)
             if (!product) {
@@ -53,17 +54,18 @@ export async function getUserOrders(req, res) {
             .sort({ createdAt: -1 })
 
         //check if each order has been reviewed
-        const orderWithReviewStatus = await Promise.all(
-            orders.map(async (order) => {
-                const review = await Review.findOne({ orderId: order._id })
-                return {
-                    ...order.toObject(),
-                    hasReviewed: !!review //true or false
-                }
-            })
-        )
+        //check if each order has been reviewed
+        const orderIds = orders.map(order => order._id)
+        const reviews = await Review.find({ orderId: { $in: orderIds } })
+        const reviewedOrderIds = new Set(reviews.map(review => review.orderId.toString()))
+
+        const orderWithReviewStatus = orders.map(order => ({
+            ...order.toObject(),
+            hasReviewed: reviewedOrderIds.has(order._id.toString())
+        }))
+
         //double bang operator in js
-        res.status(200).json({ orders:orderWithReviewStatus })
+        res.status(200).json({ orders: orderWithReviewStatus })
     } catch (error) {
         console.error("Error in getUserOrders controller: ", error.message)
         return res.status(500).json({ error: "Internal server error" })
