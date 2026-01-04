@@ -41,7 +41,7 @@ const orderSchema = new mongoose.Schema({
         ref: "User",
         required: true
     },
-    clerk: {
+    clerkId: {
         type: String,
         required: true
     },
