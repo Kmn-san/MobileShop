@@ -71,7 +71,7 @@ export async function addToCart(req, res) {
 export async function updateCart(req, res) {
     try {
         const { productId } = req.params
-        const quantity = req.body
+        const {quantity} = req.body
         if (quantity < 1) {
             return res.status(400).json({ error: "Quantity must be at least 1" })
         }
