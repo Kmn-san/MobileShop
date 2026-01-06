@@ -50,7 +50,7 @@ export async function createProduct(req, res) {
 export async function getAllProduct(_, res) {
     try {
         //-1 means decending order: most recent product first
-        const products = (await Product.find()).sort({ createdAt: -1 })
+        const products = await Product.find().sort({ createdAt: -1 })
         res.status(200).json(products)
     } catch (error) {
         console.error("Error fetching product: ", error.message)
@@ -108,6 +108,7 @@ export async function getAllOrders(req, res) {
             .populate("orderItems.product")
             .sort({ createdAt: -1 })
 
+
         res.status(200).json({ orders })
 
     } catch (error) {
@@ -151,7 +152,7 @@ export async function updateOrderStatus(req, res) {
 
 export async function getAllCustomers(_, res) {
     try {
-        const customers = (await User.find()).sort({ createdAt: -1 }); //latest user first
+        const customers = await User.find().sort({ createdAt: -1 }); //latest user first
         res.status(200).json({ customers })
     } catch (error) {
         console.error("Error fetching users: ", error.message)
@@ -186,4 +187,32 @@ export async function getDashboardStats(_, res) {
         console.error("Error fetching dashboard stats: ", error.message)
         res.status(500).json({ message: "Internal server error" })
     }
+}
+
+export async function deleteProductById(req, res) {
+    try {
+        const { id } = req.params
+        const product = await Product.findById(id)
+
+        if (!product) {
+            return res.status(404).json({ message: "Product not found" })
+        }
+
+        //delete image from cloudinary
+        if (product.images && product.images.length > 0) {
+            const deletePromises = product.images.map((imageUrl) => {
+                // Extract public_id from URL (assumes format: .../products/publicId.ext)
+                const publicId = "products/" + imageUrl.split("/products/")[1]?.split(".")[0];
+                if (publicId) return cloudinary.uploader.destroy(publicId)
+            })
+            await Promise.all(deletePromises.filter(Boolean))
+        }
+
+        await Product.findByIdAndDelete(id)
+        res.status(200).json({ message: "Delete product successfully" })
+    } catch (error) {
+        console.error("Error deleting product: ", error.message)
+        res.status(500).json({ message: "Internal server error" })
+    }
+
 }
