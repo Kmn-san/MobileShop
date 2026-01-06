@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { orderApi, statsApi } from '../lib/api.js'
 import { PackageIcon, ShoppingBagIcon, UserIcon } from 'lucide-react'
-import { capitalizeText, formatDate, getOrderStatusBadge } from '../lib/utlis.js'
+import { capitalizeText, formatDate, getOrderStatusBadge } from '../lib/utils.js'
 
 const Dashboard = () => {
   const { data: ordersData, isLoading: ordersLoading } = useQuery({
@@ -21,7 +21,7 @@ const Dashboard = () => {
   const statsCards = [
     {
       name: "Total Revenue",
-      value: statsLoading ? "..." : `RM${statsData.totalRevenue.toFixed(2) || 0}`,
+      value: statsLoading ? "..." : `RM${statsData?.totalRevenue?.toFixed(2) || 0}`,
       icon: <span className="text-2xl font-bold">RM</span>
     },
     {
@@ -106,7 +106,7 @@ const Dashboard = () => {
                       </td>
 
                       <td>
-                        <span className='font-semibold'>{order.totalPrice.toFixed(2)}</span>
+                        <span className='font-semibold'>RM {order.totalPrice.toFixed(2)}</span>
                       </td>
 
                       <td>

@@ -1,6 +1,5 @@
 import { useUser } from '@clerk/clerk-react'
 import { Key, ShoppingBagIcon } from 'lucide-react'
-import React from 'react'
 import { Link, useLocation } from 'react-router'
 import { NAVIGATION } from './Navbar'
 
@@ -49,7 +48,7 @@ const Sidebar = () => {
                             <p className='text-sm font-semibold truncate'>
                                 {user?.firstName} {user?.lastName}
                             </p>
-                            <p className='text-xs opacity-60 truncate'>{user?.emailAddresses[0].emailAddress}</p>
+                            <p className='text-xs opacity-60 truncate'>{user?.emailAddresses?.[0]?.emailAddress}</p>
                         </div>
                     </div>
                 </div>
