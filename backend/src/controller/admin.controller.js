@@ -210,7 +210,7 @@ export async function deleteProductById(req, res) {
 
         await Product.findByIdAndDelete(id)
         res.status(200).json({ message: "Delete product successfully" })
-    } catch {
+    } catch (error) {
         console.error("Error deleting product: ", error.message)
         res.status(500).json({ message: "Internal server error" })
     }
