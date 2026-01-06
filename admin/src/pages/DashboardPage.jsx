@@ -21,7 +21,7 @@ const Dashboard = () => {
   const statsCards = [
     {
       name: "Total Revenue",
-      value: statsLoading ? "..." : `RM${statsData?.totalRevenue?.toFixed(2) || 0}`,
+      value: statsLoading ? "..." : `RM ${statsData?.totalRevenue?.toFixed(2) || 0}`,
       icon: <span className="text-2xl font-bold">RM</span>
     },
     {

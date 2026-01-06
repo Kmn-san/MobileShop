@@ -5,7 +5,8 @@ import { getProductById } from "../controller/product.controller.js";
 
 const router = Router()
 
-router.get("/",protectRoute,getAllProduct)
-router.get("/:id",protectRoute,getProductById)
+router.get("/", protectRoute, getAllProduct)
+router.get("/:id", protectRoute, getProductById)
+
 
 export default router
