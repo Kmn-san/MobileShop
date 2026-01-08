@@ -69,7 +69,7 @@ const OrdersPage = () => {
                         {/* ADDRESS  */}
                         <td>
                           <div className="font-medium">{order.shippingAddress.fullName}</div>
-                          <div className="font-text-sm opacity-60">
+                          <div className="text-sm opacity-60">
                             {order.shippingAddress.city},{order.shippingAddress.state}
                           </div>
                         </td>
