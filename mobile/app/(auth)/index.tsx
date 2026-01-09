@@ -17,13 +17,13 @@ const AuthScreen = () => {
         <TouchableOpacity
           className='flex-row items-center justify-center bg-white border border-gray-300 rounded-full px-6 py-2'
           onPress={() => handleSocialAuth("oauth_google")}
-          disabled={isLoading}
+          disabled={isLoading !== null}
           style={{
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.1,
             elevation: 2 // this is for android
           }}>
-          {isLoading ?
+          {isLoading === "oauth_google" ?
             (<ActivityIndicator size={"small"} color={"#4285f4"} />)
             :
             (
@@ -39,13 +39,13 @@ const AuthScreen = () => {
         <TouchableOpacity
           className='flex-row items-center justify-center bg-white border border-gray-300 rounded-full px-6 py-3'
           onPress={() => handleSocialAuth("oauth_apple")}
-          disabled={isLoading}
+          disabled={isLoading !== null}
           style={{
             shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.1,
             elevation: 2 // this is for android
           }}>
-          {isLoading ?
+          {isLoading === "oauth_apple" ?
             (<ActivityIndicator size={"small"} color={"#4285f4"} />)
             :
             (
