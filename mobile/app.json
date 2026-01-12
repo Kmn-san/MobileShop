@@ -19,7 +19,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.mobileshop"
     },
     "web": {
       "output": "static",
@@ -38,11 +39,28 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      "expo-font",
+      "expo-secure-store",
+      "expo-web-browser",
+      [
+        "@sentry/react-native/expo",
+        {
+          "url": "https://sentry.io/",
+          "project": "ecormmerce",
+          "organization": "shouhei"
+        }
       ]
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "cf1574d6-8996-4a38-b24d-89ac08c99411"
+      }
     }
   }
 }

@@ -1,12 +1,62 @@
 import { Stack } from "expo-router";
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://8f69763aac58796ec87e59117681b887@o4510674063523840.ingest.us.sentry.io/4510686504353792',
+
+  // Adds more context data to events (IP address, cookies, user, etc.)
+  // For more information, visit: https://docs.sentry.io/platforms/react-native/data-management/data-collected/
+  sendDefaultPii: true,
+
+  // Enable Logs
+  enableLogs: true,
+
+  // Configure Session Replay
+  replaysSessionSampleRate: 0.1,
+  replaysOnErrorSampleRate: 1,
+  integrations: [Sentry.mobileReplayIntegration()],
+
+  // uncomment the line below to enable Spotlight (https://spotlightjs.com)
+  // spotlight: __DEV__,
+});
 import "../global.css"
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { MutationCache, QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ClerkProvider } from '@clerk/clerk-expo'
 import { tokenCache } from '@clerk/clerk-expo/token-cache'
 
-const queryClient = new QueryClient()
+const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error: any, query) => {
+      Sentry.captureException(error, {
+        tags: {
+          type: "react-query-error",
+          queryKey: query.queryKey[0]?.toString() || "unknown"
+        },
+        extra: {
+          errorMessage: error.message,
+          statusCode: error.response?.status,
+          queryKey: query.queryKey,
+        }
+      })
+    }
+  }),
+  mutationCache: new MutationCache({
+    onError: (error: any) => {
+      //global error handler for all mutation
+      Sentry.captureException(error, {
+        tags: {
+          type: "react-query-mutation-error",
+        },
+        extra: {
+          errorMessage: error.message,
+          statusCode: error.response?.status,
+        }
+      })
+    }
+  })
+})
 
-export default function RootLayout() {
+export default Sentry.wrap(function RootLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <QueryClientProvider client={queryClient}>
@@ -14,4 +64,4 @@ export default function RootLayout() {
       </QueryClientProvider>
     </ClerkProvider>
   )
-}
+});
