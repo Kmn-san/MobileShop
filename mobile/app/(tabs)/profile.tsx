@@ -3,8 +3,8 @@ import { Image } from "expo-image"
 import React from 'react'
 import SafeScreen from '@/components/SafeScreen'
 import { useAuth, useUser } from '@clerk/clerk-expo'
-import { router } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import { router } from 'expo-router'
 
 const MENU_ITEMS = [
     { id: 1, icon: "person-outline", title: "Edit Profile", color: "#3B82F6", action: "/profile" },
@@ -19,7 +19,7 @@ const ProfileScreen = () => {
     const { user } = useUser()
     const handleMenuPress = (action: (typeof MENU_ITEMS)[number]["action"]) => {
         if (action === "/profile") return
-        // router.push(action)
+        router.push(action)
     }
 
     return (
@@ -97,7 +97,7 @@ const ProfileScreen = () => {
                     <TouchableOpacity
                         className='flex-row items-center justify-between py-2'
                         activeOpacity={0.7}
-                    // onPress={() => router.push("/privacy-security")}
+                        onPress={() => router.push("/privacy-security")}
                     >
                         <View className='flex-row items-center'>
                             <Ionicons
