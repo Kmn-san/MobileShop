@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 const MENU_ITEMS = [
     { id: 1, icon: "person-outline", title: "Edit Profile", color: "#3B82F6", action: "/profile" },
-    { id: 2, icon: "list-outline", title: "Orders", color: "#10B981", action: "/ordeers" },
+    { id: 2, icon: "list-outline", title: "Orders", color: "#10B981", action: "/orders" },
     { id: 3, icon: "location-outline", title: "Addresses", color: "#F59E0B", action: "/addresses" },
     { id: 4, icon: "heart-outline", title: "Wishlist", color: "#EF4444", action: "/wishlist" },
 ] as const // can't edit or update the data (read only)
@@ -48,7 +48,7 @@ const ProfileScreen = () => {
                                     {user?.firstName} {user?.lastName}
                                 </Text>
                                 <Text className='text-text-secondary text-sm'>
-                                    {user?.emailAddresses[0].emailAddress}
+                                    {user?.emailAddresses?.[0]?.emailAddress}
                                 </Text>
                             </View>
                         </View>
@@ -67,7 +67,7 @@ const ProfileScreen = () => {
                             <View
                                 className='rounded-full w-16 h-16 items-center justify-center mb-4'
                                 style={{ backgroundColor: item.color + "20" }}>
-                                <Ionicons name={item.icon as any}
+                                <Ionicons name={item.icon}
                                     size={28}
                                     color={item.color} />
                             </View>

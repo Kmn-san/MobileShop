@@ -12,7 +12,7 @@ interface ProductsGridProps {
 }
 
 const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
-  const { isInWishlist, toggleWishlist, isAddingToWislist, isRemovingFromWishlist } = useWishlist()
+  const { isInWishlist, toggleWishlist, isAddingToWishlist, isRemovingFromWishlist } = useWishlist()
   const { isAddingToCart, addToCart } = useCart()
   const handleAddToCart = (productId: string, productName: string) => {
     addToCart({ productId, quantity: 1 },
@@ -44,9 +44,9 @@ const ProductsGrid = ({ products, isLoading, isError }: ProductsGridProps) => {
           className='absolute top-3 right-3 bg-black/30 backdrop-blur-xl p-2 rounded-full'
           activeOpacity={0.7}
           onPress={() => toggleWishlist(product._id)}
-          disabled={isAddingToWislist || isRemovingFromWishlist}
+          disabled={isAddingToWishlist || isRemovingFromWishlist}
         >
-          {isAddingToWislist || isRemovingFromWishlist ? (
+          {isAddingToWishlist || isRemovingFromWishlist ? (
             <ActivityIndicator size="small" color="#FFFFFF" />
           ) : (
             <Ionicons
