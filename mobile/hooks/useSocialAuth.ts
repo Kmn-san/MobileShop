@@ -3,11 +3,11 @@ import { useState } from "react"
 import { Alert } from "react-native"
 
 function useSocialAuth() {
-    const [isLoading, setIsLoading] = useState<"oauth_google" | "oauth_apple" | null>(null)
+    const [loadingStrategy, setLoadingStrategy] = useState<"oauth_google" | "oauth_apple" | null>(null)
     const { startSSOFlow } = useSSO()
 
     const handleSocialAuth = async (strategy: "oauth_google" | "oauth_apple") => {
-        setIsLoading(strategy)
+        setLoadingStrategy(strategy)
         try {
             const { createdSessionId, setActive } = await startSSOFlow({ strategy })
             if (createdSessionId && setActive) {
@@ -18,12 +18,12 @@ function useSocialAuth() {
             const provider = strategy === "oauth_google" ? "Google" : "Apple"
             Alert.alert("Error", `Failed to sign in with ${provider}. Please try again`)
         } finally {
-            setIsLoading(null)
+            setLoadingStrategy(null)
         }
 
     }
 
-    return { isLoading, handleSocialAuth }
+    return { loadingStrategy, handleSocialAuth }
 }
 
 export default useSocialAuth

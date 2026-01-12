@@ -3,12 +3,12 @@ import { Product } from "../models/product.model.js"
 
 export async function getCart(req, res) {
     try {
-        let cart = await Cart.findOne({ clerkId: req.user.clerkId }).populate("items.product")
+        let cart = await Cart.findOne({ clerk: req.user.clerkId }).populate("items.product")
         if (!cart) {
             const user = req.user
             cart = await Cart.create({
-                user: user._id,
-                clerkId: user.clerkId,
+                userId: user._id,
+                clerk: user.clerkId,
                 items: []
             })
         }
@@ -33,13 +33,13 @@ export async function addToCart(req, res) {
             return res.status(400).json({ error: "Insufficient stock" })
         }
 
-        let cart = await Cart.findOne({ clerkId: req.user.clerkId })
+        let cart = await Cart.findOne({ clerk: req.user.clerkId })
 
         if (!cart) {
             const user = req.user
             cart = await Cart.create({
-                user: user._id,
-                clerkId: user.clerkId,
+                userId: user._id,
+                clerk: user.clerkId,
                 items: []
             })
         }
@@ -49,13 +49,13 @@ export async function addToCart(req, res) {
         if (existingItem) {
             //increase quantity by 1
             const newQuantity = existingItem.quantity + 1
-            if (product.stock < quantity) {
+            if (product.stock < newQuantity) {
                 return res.status(400).json({ error: "Insufficient stock" })
             }
             existingItem.quantity = newQuantity
         } else {
             //add new item
-            cart.items.push({ product: productId, quantity })
+            cart.items.push({  productId, quantity })
         }
 
         await cart.save()
@@ -75,7 +75,7 @@ export async function updateCart(req, res) {
         if (quantity < 1) {
             return res.status(400).json({ error: "Quantity must be at least 1" })
         }
-        const cart = await Cart.findOne({ clerkId: req.user.clerkId })
+        const cart = await Cart.findOne({ clerk: req.user.clerkId })
         if (!cart) {
             return res.status(404).json({ error: "Cart not found" })
         }
@@ -108,7 +108,7 @@ export async function deleteFromCart(req, res) {
     try {
         const { productId } = req.params
 
-        const cart = await Cart.findOne({ clerkId: req.user.clerkId })
+        const cart = await Cart.findOne({ clerk: req.user.clerkId })
         if (!cart) {
             return res.status(404).json({ error: "Cart not found" })
         }
@@ -126,7 +126,7 @@ export async function deleteFromCart(req, res) {
 
 export async function clearCart(req, res) {
     try {
-        const cart = await Cart.findOne({ clerkId: req.user.clerkId })
+        const cart = await Cart.findOne({ clerk: req.user.clerkId })
         if (!cart) {
             return res.status(404).json({ error: "Cart not found" })
         }
