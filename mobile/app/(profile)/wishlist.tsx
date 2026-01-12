@@ -38,7 +38,7 @@ const wishlist = () => {
     return (
         <SafeScreen>
             {/* HEADER  */}
-            <View className='px-6 pb-5 bprder-b border-surface flex-row items-center'>
+            <View className='px-6 pb-5 border-b border-surface flex-row items-center'>
                 <TouchableOpacity
                     onPress={() => router.back()}
                     className='mr-4'>
@@ -121,7 +121,7 @@ const wishlist = () => {
                                         <Ionicons name='trash-outline' size={20} color="#EF4444" />
                                     </TouchableOpacity>
                                 </View>
-                                {item.stock > 0 ? (
+                                {item.stock > 0 && (
                                     <View className='px-4 pb-4'>
                                         <TouchableOpacity
                                             className='bg-primary rounded-xl py-3 items-center'
@@ -136,7 +136,7 @@ const wishlist = () => {
                                             )}
                                         </TouchableOpacity>
                                     </View>
-                                ) : (<Text>Hi</Text>)}
+                                )}
                             </TouchableOpacity>
 
                         ))}
