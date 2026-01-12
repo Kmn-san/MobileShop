@@ -2,10 +2,9 @@ import useProducts from '@/hooks/useProducts';
 import SafeScreen from '@/components/SafeScreen'
 import ProductsGrid from '@/components/ProductsGrid';
 
-import { Button, Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { useMemo, useState } from 'react'
 import { Ionicons } from '@expo/vector-icons'
-import * as Sentry from '@sentry/react-native';
 
 //todo:in the payment section use sentry logs to track payment errors - workflow
 

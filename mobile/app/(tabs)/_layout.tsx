@@ -6,8 +6,9 @@ import { BlurView } from "expo-blur"
 import { StyleSheet } from 'react-native'
 
 const TabsLayout = () => {
-    const { isSignedIn } = useAuth()
+    const { isLoaded, isSignedIn } = useAuth()
     const insets = useSafeAreaInsets()
+    if (!isLoaded) return null; // for a better ux
     if (!isSignedIn) return <Redirect href={"/(auth)"} />
     return (
         <Tabs
@@ -25,8 +26,8 @@ const TabsLayout = () => {
                     borderRadius: 24,
                     overflow: "hidden",
                 },
-                tabBarBackground:() => (
-                    <BlurView intensity={80} tint='dark' style={StyleSheet.absoluteFill}/>
+                tabBarBackground: () => (
+                    <BlurView intensity={80} tint='dark' style={StyleSheet.absoluteFill} />
 
                 ),
                 tabBarLabelStyle: {
