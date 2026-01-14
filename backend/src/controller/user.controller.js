@@ -2,20 +2,20 @@ import { User } from "../models/user.model.js"
 
 export async function addAddress(req, res) {
     try {
-        const { label, fullname, streetAddress, city, state, zipCode, phoneNumber, isDefault } = req.body
+        const { label, fullName, streetAddress, city, state, zipCode, phoneNumber, isDefault } = req.body
 
         const user = req.user
-
-        if (!fullname || !streetAddress || !city || !state || !zipCode) {
+        
+        if (!fullName || !streetAddress || !city || !state || !zipCode) {
             return res.status(400).json({ error: "Missing required address fields" })
         }
         //is this is set as default , unset all other defaults
         if (isDefault) {
-            user.addresses.forEach((addr) => { addr.isdDefault = false })
+            user.addresses.forEach((address) => { address.isDefault = false })
         }
-
+        
         user.addresses.push({
-            label, fullname, streetAddress, city, state, zipCode, phoneNumber, isDefault: isDefault || false
+            label, fullName, streetAddress, city, state, zipCode, phoneNumber, isDefault: isDefault || false
         })
 
         await user.save()
@@ -41,8 +41,8 @@ export async function getAddress(req, res) {
 
 export async function updateAddress(req, res) {
     try {
-        const { label, fullname, streetAddress, city, state, zipCode, phoneNumber, isDefault } = req.body
-        const { addressId } = req.params()
+        const { label, fullName, streetAddress, city, state, zipCode, phoneNumber, isDefault } = req.body
+        const { addressId } = req.params
 
         const user = req.user
         const address = user.addresses.id(addressId)
@@ -54,7 +54,7 @@ export async function updateAddress(req, res) {
             user.addresses.forEach((addr) => { addr.isdDefault = false })
         }
         address.label = label || address.label
-        address.fullname = fullname || address.fullname
+        address.fullName = fullName || address.fullName
         address.streetAddress = streetAddress || address.streetAddress
         address.city = city || address.city
         address.state = state || address.state
