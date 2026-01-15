@@ -47,7 +47,6 @@ const ProductDetialScreen = () => {
                 <TouchableOpacity
                     className="bg-black/50 backdrop-blur-xl w-12 h-12 rounded-full items-center justify-center"
                     onPress={() => router.back()}
-                    disabled={isAddingToWishlist || isRemovingFromWishlist}
                     activeOpacity={0.7}
                 >
                     <Ionicons name='arrow-back' size={24} color="#FFFFFF" />
