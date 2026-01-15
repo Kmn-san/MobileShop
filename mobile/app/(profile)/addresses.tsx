@@ -58,7 +58,7 @@ const addresses = () => {
         Alert.alert("Delete Address", `Are you sure you want to delete ${label}`, [
             { text: "Cancel", "style": "cancel" },
             {
-                text: "Deelte", "style": "destructive",
+                text: "Delete", "style": "destructive",
                 onPress: () => deleteAddress(addressId)
             },
         ])
