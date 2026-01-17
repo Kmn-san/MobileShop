@@ -50,7 +50,7 @@ export async function createOrders(req, res) {
 export async function getUserOrders(req, res) {
     try {
         const orders = await Order.find({ clerkId: req.user.clerkId })
-            .populate("orderItems.product")
+            .populate("orderItems.productId")
             .sort({ createdAt: -1 })
 
         //check if each order has been reviewed

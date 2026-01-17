@@ -87,13 +87,15 @@ const OrdersPage = () => {
                           <span className="font-semibold">RM {order.totalPrice.toFixed(2)}</span>
                         </td>
                         {/* STATUS  */}
-                        <select value={order.status} onChange={(e) => handleStatusChange(order._id, e.target.value)}
-                          className="select select-sm" disabled={updateStatusMutation.isPending}
-                        >
-                          <option value="pending">Pending</option>
-                          <option value="shipped">Shipped</option>
-                          <option value="delivered">Delivered</option>
-                        </select>
+                        <td className="align-middle">
+                          <select value={order.status} onChange={(e) => handleStatusChange(order._id, e.target.value)}
+                            className="select select-sm" disabled={updateStatusMutation.isPending}
+                          >
+                            <option value="pending">Pending</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="delivered">Delivered</option>
+                          </select>
+                        </td>
                         {/* DATE */}
                         <td>
                           <span className="text-sm opacity-60">
