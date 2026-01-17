@@ -121,6 +121,8 @@ export async function updateOrderStatus(req, res) {
     try {
         const { orderId } = req.params;
         const { status } = req.body;
+        
+        
 
         if (!["pending", "shipped", "delivered"].includes(status)) {
             return res.status(400).json({ error: "Invalid status" })

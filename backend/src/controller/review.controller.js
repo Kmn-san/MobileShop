@@ -36,18 +36,13 @@ export async function createReview(req, res) {
             return res.status(404).json({ error: "Product not found in this order" })
         }
 
-        //check if review already exists
-        const existingReview = await Review.findOne({ productId, userId: user._id })
-        if (existingReview) {
-            return res.status(400).json({ error: "You have already reviewed this product" })
-        }
+        //atomic update ir create
+        const review = await Review.findOneAndUpdate(
+            { productId, userId: user._id },
+            { rating, orderId, productId, userId: user._id },
+            { new: true, upsert: true, runValidators: true }
+        )
 
-        const review = await Review.create({
-            productId,
-            userId: user._id,
-            orderId,
-            rating
-        })
         //update the product rating
         const reviews = await Review.find({ productId })
         const totalRating = reviews.reduce((sum, rev) => sum + rev.rating, 0)

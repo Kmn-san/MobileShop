@@ -15,7 +15,7 @@ import * as Sentry from "@sentry/react-native"
 
 const CartScreen = () => {
   const api = useApi()
-  const { addToCart, isAddingToCart, cart, cartItemCount, cartTotal, clearCart, isClearing, isError, isLoading, isRemoving, isUpdating, removeFromCart, updateQuantity } = useCart()
+  const { cart, cartItemCount, cartTotal, clearCart, isError, isLoading, isRemoving, isUpdating, removeFromCart, updateQuantity } = useCart()
   const { addresses } = useAddresses()
 
   const { initPaymentSheet, presentPaymentSheet } = useStripe()
