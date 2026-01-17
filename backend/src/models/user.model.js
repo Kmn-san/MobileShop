@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     imageURL: { type: String, default: "" },
     clerkId: { type: String, required: true, unique: true },
+    stripeCustomerId: { type: String, default: "" },
     addresses: [addressSchema],
     wishlist: [
         {

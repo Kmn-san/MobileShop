@@ -3,7 +3,7 @@ import { Product } from "../models/product.model.js"
 
 export async function getCart(req, res) {
     try {
-        let cart = await Cart.findOne({ clerk: req.user.clerkId }).populate("items.product")
+        let cart = await Cart.findOne({ clerk: req.user.clerkId }).populate("items.productId")
         if (!cart) {
             const user = req.user
             cart = await Cart.create({
@@ -12,7 +12,13 @@ export async function getCart(req, res) {
                 items: []
             })
         }
-        res.status(200).json({ cart })
+        const cartObject = cart.toObject()
+        cartObject.items = cartObject.items.map(item => ({
+            ...item,
+            product: item.productId
+        }))
+
+        res.status(200).json({ cart: cartObject })
 
     } catch (error) {
         console.error("Error fetching cart: ", error.message)
@@ -48,14 +54,14 @@ export async function addToCart(req, res) {
         const existingItem = cart.items.find((item) => item.productId.toString() === productId)
         if (existingItem) {
             //increase quantity by 1
-            const newQuantity = existingItem.quantity + 1
+            const newQuantity = existingItem.quantity + quantity
             if (product.stock < newQuantity) {
                 return res.status(400).json({ error: "Insufficient stock" })
             }
             existingItem.quantity = newQuantity
         } else {
             //add new item
-            cart.items.push({  productId, quantity })
+            cart.items.push({ productId, quantity })
         }
 
         await cart.save()
@@ -71,7 +77,7 @@ export async function addToCart(req, res) {
 export async function updateCart(req, res) {
     try {
         const { productId } = req.params
-        const {quantity} = req.body
+        const { quantity } = req.body
         if (quantity < 1) {
             return res.status(400).json({ error: "Quantity must be at least 1" })
         }
