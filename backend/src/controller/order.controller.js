@@ -14,7 +14,7 @@ export async function createOrders(req, res) {
         //validate products and stock
         //todo check later if this is working or not
         for (const item of orderItems) {
-            const product = await Product.findById(item.product._id)
+            const product = await Product.findById(item.productId._id)
             if (!product) {
                 return res.status(404).json({ error: `Product ${item.name} not found` })
             }

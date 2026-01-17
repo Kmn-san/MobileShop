@@ -27,7 +27,7 @@ const Orders = () => {
 
 
         order.orderItems.forEach((item) => {
-            const productId = item.productId?._id || item._id
+            const productId = item.productId?._id
             initialRatings[productId] = 0
         })
         setProductRatings(initialRatings)
@@ -46,10 +46,10 @@ const Orders = () => {
         try {
             await Promise.all(
                 selectedOrder.orderItems.map(item => {
-                    createReviewAsync({
-                        productId: item.productId._id,
+                    return createReviewAsync({
+                        productId: item.productId?._id,
                         orderId: selectedOrder._id,
-                        rating: productRatings[item.productId._id]
+                        rating: productRatings[item.productId?._id]
                     })
                 })
             )
