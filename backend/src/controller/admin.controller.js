@@ -105,7 +105,7 @@ export async function getAllOrders(req, res) {
         //populate from that id mongoDB may find the user model to find name email ex
         const orders = await Order.find()
             .populate("userId", "name email")
-            .populate("orderItems.product") 
+            .populate("orderItems.productId") 
             .sort({ createdAt: -1 })
 
 
