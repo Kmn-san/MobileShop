@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import * as Sentry from '@sentry/react-native';
-
+import { StripeProvider } from "@stripe/stripe-react-native";
 Sentry.init({
   dsn: 'https://8f69763aac58796ec87e59117681b887@o4510674063523840.ingest.us.sentry.io/4510686504353792',
 
@@ -60,8 +60,10 @@ export default Sentry.wrap(function RootLayout() {
   return (
     <ClerkProvider tokenCache={tokenCache}>
       <QueryClientProvider client={queryClient}>
-        <Stack screenOptions={{ headerShown: false }} />
+        <StripeProvider publishableKey={process.env.EXPO_PUBLIC_STRIPE_PUBLISHABLE_KEY!}>
+          <Stack screenOptions={{ headerShown: false }} />
+        </StripeProvider>
       </QueryClientProvider>
-    </ClerkProvider>
+    </ClerkProvider >
   )
 });
